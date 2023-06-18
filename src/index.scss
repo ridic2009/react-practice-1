@@ -102,35 +102,91 @@ header {
   border-bottom: 1px solid #eaeaea;
 }
 
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-color: #00000050;
+  z-index: 10;
+
+  .sidepage {
+    background-color: #fff;
+    max-width: fit-content;
+    position: absolute;
+    right: 0;
+    padding: 30px;
+
+    h1 {
+      margin: 0;
+    }
+  }
+}
+
 .content {
   h1 {
     margin: 0;
   }
 
+  .search {
+    padding: 14px 0 14px 18px;
+    display: flex;
+    cursor: pointer;
+
+    border: 1px solid #f3f3f3;
+    border-radius: 10px;
+
+    input {
+      font-family: inherit;
+      border: none;
+      outline: none;
+      line-height: 17px;
+      color: #707070;
+      padding: 0;
+      margin-left: 14px;
+      transition: font-size .2s ease;
+
+      &:focus-visible {
+        font-size: 14px;
+      }
+    }
+  }
+
   .products {
     margin-top: 40px;
+
+    &__top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &-list {
+      display: flex;
+      gap: 36px;
+      margin-top: 26px;
+      flex-wrap: wrap;
+    }
 
     .card {
       padding: 30px;
       max-width: 210px;
-      border: 1px solid #F3F3F3;
+      border: 1px solid #f3f3f3;
       border-radius: 20px;
-      transition: box-shadow .2s ease;
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
       cursor: pointer;
 
       &:hover {
         box-shadow: 0px 4px 16px 4px rgba(34, 60, 80, 0.2);
+        transform: translateY(-5px);
       }
 
       &__inner {
         display: flex;
         justify-content: space-between;
         align-items: center;
-
       }
 
       p {
-        font-size: 14px;
+        font-size: 13px;
         line-height: 17px;
 
         color: #000000;
@@ -142,7 +198,7 @@ header {
         background-color: #fff;
         height: 32px;
         border-radius: 8px;
-        transition: .2s box-shadow ease-out;
+        transition: 0.2s box-shadow ease-out;
         cursor: pointer;
 
         &:hover {
@@ -151,7 +207,6 @@ header {
       }
 
       div {
-
         span {
           font-weight: 500;
           font-size: 11px;
@@ -161,7 +216,7 @@ header {
           color: #bdbdbd;
         }
 
-        b {
+        strong {
           margin-top: 2px;
           display: block;
           font-size: 14px;
