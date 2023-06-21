@@ -22,7 +22,7 @@ body {
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.04);
   border-radius: 20px;
   max-width: 1080px;
-  margin: 85px auto;
+  margin: 85px auto 0;
 }
 
 ul {
@@ -52,9 +52,16 @@ ul {
 
   svg {
     cursor: pointer;
+    transition: transform .2s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+    }
   }
 
   .favorite-icon {
+
+
     path {
       transition: fill 0.2s ease-out;
     }
@@ -108,17 +115,148 @@ header {
   background-color: #00000050;
   z-index: 10;
 
-  .sidepage {
+  .cart-sidepage {
     background-color: #fff;
-    max-width: fit-content;
+    height: 100vh;
     position: absolute;
+    display: flex;
+    flex-direction: column;
     right: 0;
     padding: 30px;
 
     h1 {
       margin: 0;
     }
+
+    &__close {
+      padding: 0;
+      width: 32px;
+      height: 32px;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+    }
+
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    &__card {
+      background-position: left top;
+      background-size: contain;
+      background-repeat: no-repeat;
+      padding-left: 90px;
+
+      p {
+        margin: 0;
+      }
+    }
+
+    &__items {
+      overflow-y: scroll;
+      margin-bottom: 30px;
+      flex: 1;
+    }
+
+    &__wrapper {
+      padding: 30px;
+      border: 1px solid #eeeeee;
+      border-radius: 20px;
+
+      &:not(:last-child) {
+        margin-bottom: 20px;
+      }
+    }
+
+    &__bottom {
+
+      div {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+
+        &:first-child {
+          margin-bottom: 20px;
+        }
+      }
+
+      .decor-dots {
+        flex: 1;
+        border-bottom: 1px dashed #dfdfdf;
+      }
+    }
+
+    &__btn {
+      display: block;
+      position: relative;
+      width: 100%;
+      padding: 18px 0;
+
+      background-color: #9dd558;
+      border: none;
+      border-radius: 18px;
+
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 19px;
+      text-align: center;
+      margin-top: 24px;
+      cursor: pointer;
+      transition: filter .1s ease;
+      color: #ffffff;
+
+      &::after {
+        content: '';
+        display: inline-block;
+        width: 16px;
+        height: 14px;
+        position: absolute;
+        right: 30px;
+        top: 22px;
+        background-image: url('assets/arrow.svg');
+      }
+
+      &:hover {
+        filter: brightness(1.1);
+      }
+
+      &:active {
+        filter: brightness(0.9);
+      }
+    }
+
+    &__inner {
+      display: flex;
+      align-items: center;
+
+      button {
+        margin-left: 12px;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        max-width: 32px;
+        max-height: 32px;
+        padding: 0;
+      }
+    }
+
+    &__productname {
+      max-width: 150px;
+
+      p {
+        font-size: 14px;
+        line-height: 17px;
+        margin-bottom: 8px;
+      }
+    }
   }
+}
+
+.hidden {
+  display: none;
 }
 
 .content {
@@ -142,7 +280,7 @@ header {
       color: #707070;
       padding: 0;
       margin-left: 14px;
-      transition: font-size .2s ease;
+      transition: font-size 0.2s ease;
 
       &:focus-visible {
         font-size: 14px;
