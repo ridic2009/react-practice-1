@@ -110,7 +110,7 @@ header {
 }
 
 .overlay {
-  position: absolute;
+  position: fixed;
   inset: 0;
   background-color: #00000050;
   z-index: 10;
@@ -118,7 +118,7 @@ header {
   .cart-sidepage {
     background-color: #fff;
     height: 100vh;
-    position: absolute;
+    position: fixed;
     display: flex;
     flex-direction: column;
     right: 0;
