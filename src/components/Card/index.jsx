@@ -1,12 +1,14 @@
 import { useState } from "react";
 
-function Card({ title, imgURL, price }) {
+function Card({ id, title, imgURL, price, onAdd }) {
 
 
 
   
   const [isAdded, setIsAdded] = useState(true);
+
   const onClickPlus = () => {
+    onAdd({id, title, imgURL, price})
     setIsAdded(!isAdded);
   };
   

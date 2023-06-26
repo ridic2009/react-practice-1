@@ -4,7 +4,6 @@ import Header from "./components/Header";
 import { useEffect, useState } from "react";
 
 function App() {
-
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
@@ -12,19 +11,31 @@ function App() {
       );
       const data = await response.json();
 
-      setItems(data)
+      setItems(data);
     };
 
     fetchData();
-
   }, []);
 
   const [items, setItems] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
   const [cartOpened, setCartOpened] = useState(false);
+
+  const onAddToCart = (card) => {
+    const isCardAdded = cartItems.some((item) => item.id === card.id);
+
+    if (!isCardAdded) {
+      setCartItems((prev) => [...prev, card]);
+    }
+  };
+
+  console.log(cartItems);
 
   return (
     <div className="page">
-      {cartOpened && <Cart onClose={() => setCartOpened(false)} />}
+      {cartOpened && (
+        <Cart items={cartItems} onClose={() => setCartOpened(false)} />
+      )}
 
       <Header handleCartOpen={() => setCartOpened(true)} />
 
@@ -62,9 +73,13 @@ function App() {
             <ul className="products-list">
               {items.map((card) => (
                 <Card
+                  id={card.id}
                   title={card.title}
                   imgURL={card.imgURL}
                   price={card.price}
+                  onAdd={(card) => {
+                    onAddToCart(card);
+                  }}
                 />
               ))}
             </ul>

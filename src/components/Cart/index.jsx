@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Cart({onClose}) {
+function Cart({onClose, items}) {
   return (
     <div className="overlay">
     <div className="cart-sidepage">
@@ -32,15 +32,16 @@ function Cart({onClose}) {
       </button>
       </div>
       <div className="cart-sidepage__items">
-        <div className="cart-sidepage__wrapper">
+        {items.map((card) => (
+          <div className="cart-sidepage__wrapper">
           <div
-            style={{ backgroundImage: "url(/assets/card-img-1.jpg)" }}
+            style={{ backgroundImage: `url(${card.imgURL})` }}
             className="cart-sidepage__card"
           >
             <div className="cart-sidepage__inner">
               <div className="cart-sidepage__productname">
-                <p>Мужские Кроссовки Nike Air Max 270</p>
-                <strong>12 999 ₽</strong>
+                <p>{card.title}</p>
+                <strong>{card.price} ₽</strong>
               </div>
 
               <button>
@@ -68,7 +69,11 @@ function Cart({onClose}) {
               </button>
             </div>
           </div>
+          
         </div>
+        ))}
+
+        
       </div>
       <div className="cart-sidepage__bottom">
         <div>
