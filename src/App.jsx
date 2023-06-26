@@ -1,47 +1,32 @@
 import Cart from "./components/Cart";
 import Card from "./components/Card";
 import Header from "./components/Header";
-import { useState } from "react";
-
-const cards = [
-  {
-    title: "Мужские Кроссовки Nike Blazer Mid Suede",
-    price: 12999,
-    imgURL: "./assets/card-img-1.jpg",
-  },
-  {
-    title: "Мужские Кроссовки Nike Air Max 270",
-    price: 12999,
-    imgURL: "./assets/card-img-2.jpg",
-  },
-  {
-    title: "Мужские Кроссовки Nike Blazer Mid Suede",
-    price: 8499,
-    imgURL: "./assets/card-img-3.jpg",
-  },
-  {
-    title: "Кроссовки Puma X Aka Boku Future Rider",
-    price: 8999,
-    imgURL: "./assets/card-img-4.jpg",
-  },
-];
-
-
+import { useEffect, useState } from "react";
 
 function App() {
 
-  
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch(
+        "https://6499727d79fbe9bcf83f4533.mockapi.io/items"
+      );
+      const data = await response.json();
 
-  const [isOpened, setIsOpened] = useState(false)
+      setItems(data)
+    };
+
+    fetchData();
+
+  }, []);
+
+  const [items, setItems] = useState([]);
+  const [cartOpened, setCartOpened] = useState(false);
 
   return (
     <div className="page">
+      {cartOpened && <Cart onClose={() => setCartOpened(false)} />}
 
-      {
-        isOpened ? <Cart handleCartOpen={() => setIsOpened(false)}/> : null
-      }
-
-      <Header handleCartOpen={() => setIsOpened(true)}/>
+      <Header handleCartOpen={() => setCartOpened(true)} />
 
       <main className="content">
         <section className="products">
@@ -75,7 +60,7 @@ function App() {
             </div>
 
             <ul className="products-list">
-              {cards.map((card) => (
+              {items.map((card) => (
                 <Card
                   title={card.title}
                   imgURL={card.imgURL}

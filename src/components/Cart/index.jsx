@@ -1,13 +1,13 @@
 import React from 'react'
 
-function Cart({handleCartOpen}) {
+function Cart({onClose}) {
   return (
     <div className="overlay">
     <div className="cart-sidepage">
       
       <div className="cart-sidepage__header">
       <h1>Корзина</h1>
-      <button className="cart-sidepage__close" onClick={handleCartOpen}>
+      <button className="cart-sidepage__close" onClick={onClose}>
         <svg
           width="32"
           height="32"
