@@ -21,11 +21,11 @@ function App() {
   const [cartItems, setCartItems] = useState([]);
   const [cartOpened, setCartOpened] = useState(false);
 
-  const onAddToCart = (card) => {
-    const isCardAdded = cartItems.some((item) => item.id === card.id);
+  const onAddToCart = card => {
+    const isCardAdded = cartItems.some(item => item.id === card.id);
 
     if (!isCardAdded) {
-      setCartItems((prev) => [...prev, card]);
+      setCartItems(prev => [...prev, card]);
     }
   };
 
@@ -71,13 +71,13 @@ function App() {
             </div>
 
             <ul className="products-list">
-              {items.map((card) => (
+              {items.map(card => (
                 <Card
                   id={card.id}
                   title={card.title}
                   imgURL={card.imgURL}
                   price={card.price}
-                  onAdd={(card) => {
+                  onAdd={card => {
                     onAddToCart(card);
                   }}
                 />
