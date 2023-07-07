@@ -6,22 +6,54 @@ import { useEffect, useState } from "react";
 function App() {
   useEffect(() => {
     const fetchData = async () => {
+
+      // Запрос карточек кроссовок
       const response = await fetch(
         "https://6499727d79fbe9bcf83f4533.mockapi.io/items"
       );
+
       const data = await response.json();
 
+      // Запрос карточек для корзины
+      const responseForCart = await fetch(
+        "https://6499727d79fbe9bcf83f4533.mockapi.io/cart"
+      );
+      const dataForCart = await responseForCart.json();
+
       setItems(data);
+      setCartItems(dataForCart);
     };
 
     fetchData();
   }, []);
 
+  // Добавление карточек из корзины в Backend
+  const fetchDataToBackend = async obj => {
+    const response = await fetch(
+      "https://6499727d79fbe9bcf83f4533.mockapi.io/cart",
+      {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json;charset=utf-8"
+        },
+        body: JSON.stringify(obj)
+      }
+    );
+
+    const data = await response.json();
+
+    return data;
+  };
+
   const [items, setItems] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const [cartOpened, setCartOpened] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
 
   const onAddToCart = card => {
+    fetchDataToBackend(card);
+
+    // Если карточка товара добавлена, то больше не добавлять в общий массив карточек
     const isCardAdded = cartItems.some(item => item.id === card.id);
 
     if (!isCardAdded) {
@@ -29,7 +61,9 @@ function App() {
     }
   };
 
-  console.log(cartItems);
+  const onChangeSearchValue = event => {
+    setSearchValue(event.target.value);
+  };
 
   return (
     <div className="page">
@@ -43,7 +77,11 @@ function App() {
         <section className="products">
           <div className="container">
             <div className="products__top">
-              <h1>Все кроссовки</h1>
+              <h1>
+                {searchValue
+                  ? `Поиск по запросу "${searchValue}"`
+                  : "Все кроссовки"}
+              </h1>
               <div className="search">
                 <svg
                   width="16"
@@ -66,22 +104,29 @@ function App() {
                   placeholder="Поиск..."
                   maxLength={42}
                   autoComplete="off"
+                  onChange={onChangeSearchValue}
+                  value={searchValue}
                 />
               </div>
             </div>
 
             <ul className="products-list">
-              {items.map(card => (
-                <Card
-                  id={card.id}
-                  title={card.title}
-                  imgURL={card.imgURL}
-                  price={card.price}
-                  onAdd={card => {
-                    onAddToCart(card);
-                  }}
-                />
-              ))}
+              {items
+                .filter(item =>
+                  item.title.toLowerCase().includes(searchValue.toLowerCase())
+                )
+                .map((card, index) => (
+                  <Card
+                    key={index}
+                    id={card.id}
+                    title={card.title}
+                    imgURL={card.imgURL}
+                    price={card.price}
+                    onAdd={card => {
+                      onAddToCart(card);
+                    }}
+                  />
+                ))}
             </ul>
           </div>
         </section>
