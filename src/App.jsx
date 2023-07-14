@@ -6,15 +6,14 @@ import { useEffect, useState } from "react";
 function App() {
   useEffect(() => {
     const fetchData = async () => {
-
-      // Запрос карточек кроссовок
+      // Запрос товаров для рендера в главной части
       const response = await fetch(
         "https://6499727d79fbe9bcf83f4533.mockapi.io/items"
       );
 
       const data = await response.json();
 
-      // Запрос карточек для корзины
+      // Запрос товаров для корзины
       const responseForCart = await fetch(
         "https://6499727d79fbe9bcf83f4533.mockapi.io/cart"
       );
@@ -27,7 +26,7 @@ function App() {
     fetchData();
   }, []);
 
-  // Добавление карточек из корзины в Backend
+  // Добавление товаров из корзины в Backend для последующего запроса при загрузке страницы
   const fetchDataToBackend = async obj => {
     const response = await fetch(
       "https://6499727d79fbe9bcf83f4533.mockapi.io/cart",
@@ -45,11 +44,13 @@ function App() {
     return data;
   };
 
+  // Стэйты
   const [items, setItems] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const [cartOpened, setCartOpened] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
+  // Функция добавления определённого товара в корзину
   const onAddToCart = card => {
     fetchDataToBackend(card);
 
@@ -61,6 +62,19 @@ function App() {
     }
   };
 
+  // Функция удаления определённого товара из корзины
+  const onRemoveFromCart = id => {
+    fetch(`https://6499727d79fbe9bcf83f4533.mockapi.io/cart/${id}`, {
+      method: "delete",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8"
+      }
+    });
+
+    setCartItems(prev => prev.filter(item => item.id !== id));
+  };
+
+  // Функция поиска по товарам
   const onChangeSearchValue = event => {
     setSearchValue(event.target.value);
   };
@@ -68,7 +82,11 @@ function App() {
   return (
     <div className="page">
       {cartOpened && (
-        <Cart items={cartItems} onClose={() => setCartOpened(false)} />
+        <Cart
+          items={cartItems}
+          onClose={() => setCartOpened(false)}
+          onRemove={onRemoveFromCart}
+        />
       )}
 
       <Header handleCartOpen={() => setCartOpened(true)} />

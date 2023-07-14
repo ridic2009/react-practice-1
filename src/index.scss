@@ -117,6 +117,7 @@ header {
 
   .cart-sidepage {
     background-color: #fff;
+    min-width: 406px;
     height: 100vh;
     position: fixed;
     display: flex;
@@ -135,6 +136,13 @@ header {
       background-color: transparent;
       border: none;
       cursor: pointer;
+    }
+
+    &__empty {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     &__header {
