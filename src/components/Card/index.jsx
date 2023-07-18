@@ -7,6 +7,7 @@ function Card({ id, title, imgURL, price, onAdd }) {
   // Функция добавления товара в корзину
   const onClickPlus = () => {
     setIsAdded(!isAdded);
+    // onAdd({ id, title, imgURL, price });
 
     if (isAdded) {
       onAdd({ id, title, imgURL, price });
