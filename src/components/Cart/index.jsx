@@ -1,10 +1,10 @@
 import React from "react";
-
 function Cart({ onClose, onRemove, items }) {
   return (
     <div className="overlay">
       <div className="cart-sidepage">
         <div className="cart-sidepage__header">
+
           <h1>Корзина</h1>
           <button className="cart-sidepage__close" onClick={onClose}>
             <svg

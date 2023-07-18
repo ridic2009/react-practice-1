@@ -1,6 +1,7 @@
 import Cart from "./components/Cart";
 import Card from "./components/Card";
 import Header from "./components/Header";
+import { Route, Routes } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -55,11 +56,13 @@ function App() {
     fetchDataToBackend(card);
 
     // Если карточка товара добавлена, то больше не добавлять в общий массив карточек
-    const isCardAdded = cartItems.some(item => item.id === card.id);
+    // const isCardAdded = cartItems.some(item => item.id === card.id);
 
-    if (!isCardAdded) {
-      setCartItems(prev => [...prev, card]);
-    }
+    // if (!isCardAdded) {
+    //   setCartItems(prev => [...prev, card]);
+    // }
+
+    setCartItems(prev => [...prev, card]);
   };
 
   // Функция удаления определённого товара из корзины
@@ -95,6 +98,9 @@ function App() {
         <section className="products">
           <div className="container">
             <div className="products__top">
+              <Routes>
+                <Route path="/sercolox" element="dfg"></Route>
+              </Routes>
               <h1>
                 {searchValue
                   ? `Поиск по запросу "${searchValue}"`
