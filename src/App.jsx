@@ -98,9 +98,6 @@ function App() {
         <section className="products">
           <div className="container">
             <div className="products__top">
-              <Routes>
-                <Route path="/sercolox" element="dfg"></Route>
-              </Routes>
               <h1>
                 {searchValue
                   ? `Поиск по запросу "${searchValue}"`
