@@ -307,6 +307,10 @@ header {
       display: flex;
       justify-content: space-between;
       align-items: center;
+
+      h1 {
+        user-select: none;
+      }
     }
 
     &-list {
@@ -333,6 +337,10 @@ header {
         display: flex;
         justify-content: space-between;
         align-items: center;
+
+        span {
+          user-select: none;
+        }
       }
 
       p {
