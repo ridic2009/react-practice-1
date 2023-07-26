@@ -4,11 +4,9 @@ import Card from "../components/Card";
 function Home({
   items,
   searchValue,
-  setSearchValue,
   onChangeSearchValue,
   onAddToCart,
   onAddToFavorite,
-  onRemoveFromFavorite
 
 }) {
   return (

@@ -23,13 +23,13 @@ function App() {
 
       const responseForFavorites = await fetch(
         "https://64bb72ab5e0670a501d7089b.mockapi.io/Favorites"
-      )
+      );
 
-      const dataForFavorites = await responseForFavorites.json()
+      const dataForFavorites = await responseForFavorites.json();
 
       setItems(data);
       setCartItems(dataForCart);
-      setFavoriteItems(dataForFavorites)
+      setFavoriteItems(dataForFavorites);
     };
 
     fetchData();
@@ -100,23 +100,22 @@ function App() {
   };
 
   // Функция добавления товара в избранное
-  const onAddToFavorite = card => {
-    fetchFavoritesToBackend(card);
-    setFavoriteItems(prev => [...prev, card]);
-    console.log(favoriteItems);
+  const onAddToFavorite = async card => {
+    if (favoriteItems.find(item => item.id === card.id)) {
+      fetch(
+        `https://64bb72ab5e0670a501d7089b.mockapi.io/Favorites/${card.id}`,
+        {
+          method: "delete",
+          headers: {
+            "Content-Type": "application/json;charset=utf-8"
+          }
+        }
+      );
+    } else {
+      const resp = await fetchFavoritesToBackend(card);
+      setFavoriteItems(prev => [...prev, resp]);
+    }
   };
-
-  // Функция удаления определённого товара из избранного
-  // const onRemoveFromFavorite = () => {
-  //   fetch(`https://64bb72ab5e0670a501d7089b.mockapi.io/Favorites/`, {
-  //     method: "delete",
-  //     headers: {
-  //       "Content-Type": "application/json;charset=utf-8"
-  //     }
-  //   });
-
-  //   setFavoriteItems(prev => [])
-  // }
 
   // Функция поиска по товарам
   const onChangeSearchValue = event => {
@@ -156,6 +155,7 @@ function App() {
               items={favoriteItems}
               searchValue={searchValue}
               onChangeSearchValue={onChangeSearchValue}
+              onAddToFavorite={onAddToFavorite}
             />
           }
         ></Route>

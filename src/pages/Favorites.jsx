@@ -1,7 +1,7 @@
 import React from "react";
 import Card from "../components/Card";
 
-function Favorites({ searchValue, onChangeSearchValue, items }) {
+function Favorites({ searchValue, onChangeSearchValue, items, onAddToFavorite }) {
   return (
     <main className="content">
       <section className="products">

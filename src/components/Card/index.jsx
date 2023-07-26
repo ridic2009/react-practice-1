@@ -1,13 +1,20 @@
 import { useState } from "react";
 
-function Card({ id, title, imgURL, price, onAdd, onAddToFavorite, favorited = false }) {
+function Card({
+  id,
+  title,
+  imgURL,
+  price,
+  onAdd,
+  onAddToFavorite,
+  favorited = false
+}) {
   const [isAdded, setIsAdded] = useState(true);
   const [isFavorite, setIsFavorite] = useState(favorited);
 
   // Функция добавления товара в корзину
   const onClickPlus = () => {
     setIsAdded(!isAdded);
-    // onAdd({ id, title, imgURL, price });
 
     if (isAdded) {
       onAdd({ id, title, imgURL, price });
@@ -16,13 +23,10 @@ function Card({ id, title, imgURL, price, onAdd, onAddToFavorite, favorited = fa
 
   const onClickFavorite = () => {
     setIsFavorite(!isFavorite);
+
     console.log(isFavorite);
-
-    if (isFavorite) {
-      onAddToFavorite({id, title, imgURL, price})
-    }
+    onAddToFavorite({ id, title, imgURL, price });
   };
-
   return (
     <li className="card">
       <button onClick={onClickFavorite}>
