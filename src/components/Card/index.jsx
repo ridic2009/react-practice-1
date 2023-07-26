@@ -23,7 +23,7 @@ function Card({
 
   const onClickFavorite = () => {
     setIsFavorite(!isFavorite);
-
+ 
     console.log(isFavorite);
     onAddToFavorite({ id, title, imgURL, price });
   };

@@ -111,6 +111,8 @@ function App() {
           }
         }
       );
+
+      setFavoriteItems(prev => prev.filter(item => item.id !== card.id))
     } else {
       const resp = await fetchFavoritesToBackend(card);
       setFavoriteItems(prev => [...prev, resp]);
