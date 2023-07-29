@@ -2,12 +2,15 @@ import Cart from "./components/Cart";
 import Home from "./pages/Home";
 import Header from "./components/Header";
 import { Route, Routes } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import Favorites from "./pages/Favorites";
+
+export const RootContext = createContext({});
 
 function App() {
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       // Запрос товаров для рендера в главной части
       const response = await fetch(
         "https://6499727d79fbe9bcf83f4533.mockapi.io/items"
@@ -30,6 +33,7 @@ function App() {
       setItems(data);
       setCartItems(dataForCart);
       setFavoriteItems(dataForFavorites);
+      setIsLoading(false);
     };
 
     fetchData();
@@ -76,6 +80,7 @@ function App() {
   const [cartItems, setCartItems] = useState([]);
   const [cartOpened, setCartOpened] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   // Функция добавления определённого товара в корзину
   const onAddToCart = card => {
@@ -101,21 +106,25 @@ function App() {
 
   // Функция добавления товара в избранное
   const onAddToFavorite = async card => {
-    if (favoriteItems.find(item => item.id === card.id)) {
-      fetch(
-        `https://64bb72ab5e0670a501d7089b.mockapi.io/Favorites/${card.id}`,
-        {
-          method: "delete",
-          headers: {
-            "Content-Type": "application/json;charset=utf-8"
+    try {
+      if (favoriteItems.find(item => item.id === card.id)) {
+        fetch(
+          `https://64bb72ab5e0670a501d7089b.mockapi.io/Favorites/${card.id}`,
+          {
+            method: "delete",
+            headers: {
+              "Content-Type": "application/json;charset=utf-8"
+            }
           }
-        }
-      );
+        );
 
-      setFavoriteItems(prev => prev.filter(item => item.id !== card.id))
-    } else {
-      const resp = await fetchFavoritesToBackend(card);
-      setFavoriteItems(prev => [...prev, resp]);
+        setFavoriteItems(prev => prev.filter(item => item.id !== card.id));
+      } else {
+        const resp = await fetchFavoritesToBackend(card);
+        setFavoriteItems(prev => [...prev, resp]);
+      }
+    } catch (error) {
+      console.error("Что-то пошло не так", error);
     }
   };
 
@@ -125,44 +134,46 @@ function App() {
   };
 
   return (
-    <div className="page">
-      {cartOpened && (
-        <Cart
-          items={cartItems}
-          onClose={() => setCartOpened(false)}
-          onRemove={onRemoveFromCart}
-        />
-      )}
+    <RootContext.Provider value={{favoriteItems, items, cartItems}}>
+      <div className="page">
+        {cartOpened && (
+          <Cart
+            items={cartItems}
+            onClose={() => setCartOpened(false)}
+            onRemove={onRemoveFromCart}
+          />
+        )}
 
-      <Header handleCartOpen={() => setCartOpened(true)} />
+        <Header handleCartOpen={() => setCartOpened(true)} />
 
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Home
-              items={items}
-              searchValue={searchValue}
-              setSearchValue={setSearchValue}
-              onChangeSearchValue={onChangeSearchValue}
-              onAddToCart={onAddToCart}
-              onAddToFavorite={onAddToFavorite}
-            />
-          }
-        ></Route>
-        <Route
-          path="/favorites"
-          element={
-            <Favorites
-              items={favoriteItems}
-              searchValue={searchValue}
-              onChangeSearchValue={onChangeSearchValue}
-              onAddToFavorite={onAddToFavorite}
-            />
-          }
-        ></Route>
-      </Routes>
-    </div>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Home
+                items={items}
+                searchValue={searchValue}
+                setSearchValue={setSearchValue}
+                onChangeSearchValue={onChangeSearchValue}
+                onAddToCart={onAddToCart}
+                onAddToFavorite={onAddToFavorite}
+                isLoading={isLoading}
+              />
+            }
+          ></Route>
+          <Route
+            path="/favorites"
+            element={
+              <Favorites
+                searchValue={searchValue}
+                onChangeSearchValue={onChangeSearchValue}
+                onAddToFavorite={onAddToFavorite}
+              />
+            }
+          ></Route>
+        </Routes>
+      </div>
+    </RootContext.Provider>
   );
 }
 

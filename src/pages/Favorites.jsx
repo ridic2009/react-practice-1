@@ -1,12 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import Card from "../components/Card";
+import { RootContext } from "../App";
 
-function Favorites({
-  searchValue,
-  onChangeSearchValue,
-  items,
-  onAddToFavorite
-}) {
+function Favorites({ searchValue, onChangeSearchValue, onAddToFavorite }) {
+  const { favoriteItems } = useContext(RootContext);
+  console.log(favoriteItems);
   return (
     <main className="content">
       <section className="products">
@@ -44,8 +42,8 @@ function Favorites({
           </div>
 
           <ul className="products-list">
-            {items.length > 0 ? (
-              items
+            {favoriteItems.length > 0 ? (
+              favoriteItems
                 .filter(item =>
                   item.title.toLowerCase().includes(searchValue.toLowerCase())
                 )
@@ -60,7 +58,9 @@ function Favorites({
                   />
                 ))
             ) : (
-              <div className="favorite__empty">Вы не добавили ни одного товара</div>
+              <div className="favorite__empty">
+                Вы не добавили ни одного товара
+              </div>
             )}
           </ul>
         </div>
