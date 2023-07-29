@@ -1,7 +1,12 @@
 import React from "react";
 import Card from "../components/Card";
 
-function Favorites({ searchValue, onChangeSearchValue, items, onAddToFavorite }) {
+function Favorites({
+  searchValue,
+  onChangeSearchValue,
+  items,
+  onAddToFavorite
+}) {
   return (
     <main className="content">
       <section className="products">
@@ -39,23 +44,24 @@ function Favorites({ searchValue, onChangeSearchValue, items, onAddToFavorite })
           </div>
 
           <ul className="products-list">
-            {items
-              .filter(item =>
-                item.title.toLowerCase().includes(searchValue.toLowerCase())
-              )
-              .map((card, index) => (
-                <Card
-                  key={index}
-                  id={card.id}
-                  title={card.title}
-                  imgURL={card.imgURL}
-                  price={card.price}
-                  onAdd={card => {
-                    onAddToCart(card);
-                  }}
-                  onAddToFavorite={card => onAddToFavorite(card)}
-                />
-              ))}
+            {items.length > 0 ? (
+              items
+                .filter(item =>
+                  item.title.toLowerCase().includes(searchValue.toLowerCase())
+                )
+                .map((card, index) => (
+                  <Card
+                    key={index}
+                    onAdd={card => {
+                      onAddToCart(card);
+                    }}
+                    onAddToFavorite={card => onAddToFavorite(card)}
+                    {...card}
+                  />
+                ))
+            ) : (
+              <div className="favorite__empty">Вы не добавили ни одного товара</div>
+            )}
           </ul>
         </div>
       </section>
