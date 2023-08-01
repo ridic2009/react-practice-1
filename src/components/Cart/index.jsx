@@ -1,5 +1,10 @@
 import React from "react";
 function Cart({ onClose, onRemove, items }) {
+
+
+  const totalPrice = items.reduce((accum, item) => accum + item.price, 0)
+  console.log(totalPrice);
+
   return (
     <div className="overlay">
       <div className="cart-sidepage">
@@ -77,13 +82,13 @@ function Cart({ onClose, onRemove, items }) {
               <div>
                 <span>Итого:</span>
                 <div className="decor-dots"></div>
-                <strong>21 498 ₽</strong>
+                <strong>{totalPrice} ₽</strong>
               </div>
 
               <div>
                 <span>Налог 5%:</span>
                 <div className="decor-dots"></div>
-                <strong>1074 ₽</strong>
+                <strong>{(totalPrice * (5 / 100)).toFixed(0)} ₽</strong>
               </div>
 
               <button className="cart-sidepage__btn">Оформить заказ</button>

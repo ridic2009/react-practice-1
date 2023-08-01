@@ -134,7 +134,7 @@ function App() {
   };
 
   return (
-    <RootContext.Provider value={{favoriteItems, items, cartItems}}>
+    <RootContext.Provider value={{ favoriteItems, items, cartItems }}>
       <div className="page">
         {cartOpened && (
           <Cart
@@ -144,7 +144,7 @@ function App() {
           />
         )}
 
-        <Header handleCartOpen={() => setCartOpened(true)} />
+        <Header handleCartOpen={() => setCartOpened(true)} items={cartItems} />
 
         <Routes>
           <Route

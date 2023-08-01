@@ -1,7 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function Header({ handleCartOpen }) {
+function Header({ handleCartOpen, items }) {
+
+  const totalPrice = items.reduce((accum, item) => accum + item.price, 0)
+
   return (
     <header>
       <div className="container">
@@ -49,7 +52,7 @@ function Header({ handleCartOpen }) {
                   strokeLinejoin="round"
                 />
               </svg>
-              <span>1205 ₽</span>
+              <span>{totalPrice} ₽</span>
             </li>
             <li>
               <Link to={"/favorites"}>
