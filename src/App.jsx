@@ -78,9 +78,10 @@ function App() {
   const [favoriteItems, setFavoriteItems] = useState([]);
   const [items, setItems] = useState([]);
   const [cartItems, setCartItems] = useState([]);
-  const [cartOpened, setCartOpened] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+  const [cartOpened, setCartOpened] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
 
   // Функция добавления определённого товара в корзину
   const onAddToCart = card => {
@@ -134,7 +135,9 @@ function App() {
   };
 
   return (
-    <RootContext.Provider value={{ favoriteItems, items, cartItems }}>
+    <RootContext.Provider
+      value={{ favoriteItems, items, cartItems, setCartOpened, setCartItems }}
+    >
       <div className="page">
         {cartOpened && (
           <Cart

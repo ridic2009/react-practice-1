@@ -201,6 +201,12 @@ header {
       }
     }
 
+    .btn-close {
+      &::after {
+        content: none;
+      }
+    }
+
     &__btn {
       display: block;
       position: relative;
@@ -237,6 +243,12 @@ header {
 
       &:active {
         filter: brightness(0.9);
+
+      }
+
+      &:disabled {
+        background-color: #5e5e5e70;
+        cursor: default;
       }
     }
 
@@ -387,6 +399,16 @@ header {
   }
 }
 
-.favorite__empty {
-  padding-bottom: 20px;
+.empty {
+  max-width: 340px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+
+  img {
+    max-width: 120px;
+  }
 }

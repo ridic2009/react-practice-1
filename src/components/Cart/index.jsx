@@ -1,15 +1,21 @@
-import React from "react";
+import React, { useContext, useState } from "react";
+import Info from "../Info";
+import { RootContext } from "../../App";
 function Cart({ onClose, onRemove, items }) {
 
+  const [placeOnOrder, setPlaceOnOrder] = useState(false);
+  const { setCartItems } = useContext(RootContext)
+  const totalPrice = items.reduce((accum, item) => accum + item.price, 0);
 
-  const totalPrice = items.reduce((accum, item) => accum + item.price, 0)
-  console.log(totalPrice);
+  const onClickOrder = () => {
+    setPlaceOnOrder(true)
+    setCartItems([])
+  }
 
   return (
     <div className="overlay">
       <div className="cart-sidepage">
         <div className="cart-sidepage__header">
-
           <h1>Корзина</h1>
           <button className="cart-sidepage__close" onClick={onClose}>
             <svg
@@ -91,11 +97,19 @@ function Cart({ onClose, onRemove, items }) {
                 <strong>{(totalPrice * (5 / 100)).toFixed(0)} ₽</strong>
               </div>
 
-              <button className="cart-sidepage__btn">Оформить заказ</button>
+              <button onClick={onClickOrder} className="cart-sidepage__btn">
+                Оформить заказ
+              </button>
             </div>
           </>
         ) : (
-          <h1 className="cart-sidepage__empty">Корзина пуста :/</h1>
+          <Info
+            title={placeOnOrder ? "Заказ оформлен" : "Вы не добавили ничего в корзину"}
+            description={ placeOnOrder ? `Ваш заказ номер ${"какой-нибудь номер я хз"} оформлен и будет передан в курьерскую службу` :
+              "Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ."
+            }
+            image={placeOnOrder ? "../../public/assets/complete-order.png" : "../../public/assets/box.jpg"}
+          />
         )}
       </div>
     </div>
