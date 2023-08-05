@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import Info from "../Info";
 import { RootContext } from "../../App";
-function Cart({ onClose, onRemove, items }) {
+function Cart({ onClose, onRemove, items, opened }) {
 
   const [placeOnOrder, setPlaceOnOrder] = useState(false);
   const { setCartItems } = useContext(RootContext)
@@ -13,8 +13,8 @@ function Cart({ onClose, onRemove, items }) {
   }
 
   return (
-    <div className="overlay">
-      <div className="cart-sidepage">
+    <div className={opened ? 'overlay' : 'overlay overlay-hidden'}>
+      <div className={opened ? 'cart-sidepage' : 'cart-sidepage cart-sidepage__hidden'}>
         <div className="cart-sidepage__header">
           <h1>Корзина</h1>
           <button className="cart-sidepage__close" onClick={onClose}>

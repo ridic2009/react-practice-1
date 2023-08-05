@@ -82,7 +82,6 @@ function App() {
   const [cartOpened, setCartOpened] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-
   // Функция добавления определённого товара в корзину
   const onAddToCart = card => {
     const isCardAdded = cartItems.some(item => item.id === card.id);
@@ -139,13 +138,12 @@ function App() {
       value={{ favoriteItems, items, cartItems, setCartOpened, setCartItems }}
     >
       <div className="page">
-        {cartOpened && (
-          <Cart
-            items={cartItems}
-            onClose={() => setCartOpened(false)}
-            onRemove={onRemoveFromCart}
-          />
-        )}
+        <Cart
+          items={cartItems}
+          onClose={() => setCartOpened(false)}
+          onRemove={onRemoveFromCart}
+          opened={cartOpened}
+        />
 
         <Header handleCartOpen={() => setCartOpened(true)} items={cartItems} />
 
