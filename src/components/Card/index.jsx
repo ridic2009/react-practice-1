@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import ContentLoader from "react-content-loader";
+import { RootContext } from "../../App";
 
 function Card({
   id,
@@ -11,12 +12,13 @@ function Card({
   isLoading = false,
   favorited = false
 }) {
-  const [isAdded, setIsAdded] = useState(true);
+  const { isAdded, setIsAdded } = useContext(RootContext);
   const [isFavorite, setIsFavorite] = useState(favorited);
 
   // Функция добавления товара в корзину
   const onClickPlus = () => {
     setIsAdded(!isAdded);
+    console.log(RootContext);
 
     if (isAdded) {
       onAdd({ id, title, imgURL, price });

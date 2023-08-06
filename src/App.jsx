@@ -1,76 +1,92 @@
 import Cart from "./components/Cart";
 import Home from "./pages/Home";
 import Header from "./components/Header";
+import Favorites from "./pages/Favorites";
+
+
 import { Route, Routes } from "react-router-dom";
 import { createContext, useEffect, useState } from "react";
-import Favorites from "./pages/Favorites";
+
 
 export const RootContext = createContext({});
 
+
 function App() {
   useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      // Запрос товаров для рендера в главной части
-      const response = await fetch(
-        "https://6499727d79fbe9bcf83f4533.mockapi.io/items"
-      );
+    try {
+      const fetchData = async () => {
+        setIsLoading(true);
+        // Запрос товаров для рендера в главной части
+        const response = await fetch(
+          "https://6499727d79fbe9bcf83f4533.mockapi.io/items"
+        );
 
-      const data = await response.json();
+        const data = await response.json();
 
-      // Запрос товаров для корзины
-      const responseForCart = await fetch(
-        "https://6499727d79fbe9bcf83f4533.mockapi.io/cart"
-      );
-      const dataForCart = await responseForCart.json();
+        // Запрос товаров для корзины
+        const responseForCart = await fetch(
+          "https://6499727d79fbe9bcf83f4533.mockapi.io/cart"
+        );
+        const dataForCart = await responseForCart.json();
 
-      const responseForFavorites = await fetch(
-        "https://64bb72ab5e0670a501d7089b.mockapi.io/Favorites"
-      );
+        const responseForFavorites = await fetch(
+          "https://64bb72ab5e0670a501d7089b.mockapi.io/Favorites"
+        );
 
-      const dataForFavorites = await responseForFavorites.json();
+        const dataForFavorites = await responseForFavorites.json();
 
-      setItems(data);
-      setCartItems(dataForCart);
-      setFavoriteItems(dataForFavorites);
-      setIsLoading(false);
-    };
+        setItems(data);
+        setCartItems(dataForCart);
+        setFavoriteItems(dataForFavorites);
+        setIsLoading(false);
+      };
 
-    fetchData();
+      fetchData();
+    } catch (error) {
+      alert("Ошибка при запросе данных с backend", error);
+    }
   }, []);
 
   // Добавление товаров из корзины в Backend для последующего запроса при загрузке страницы
   const fetchDataToBackend = async obj => {
-    const response = await fetch(
-      "https://6499727d79fbe9bcf83f4533.mockapi.io/cart",
-      {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json;charset=utf-8"
-        },
-        body: JSON.stringify(obj)
-      }
-    );
+    try {
+      const response = await fetch(
+        "https://6499727d79fbe9bcf83f4533.mockapi.io/cart",
+        {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json;charset=utf-8"
+          },
+          body: JSON.stringify(obj)
+        }
+      );
 
-    const data = await response.json();
+      const data = await response.json();
 
-    return data;
+      return data;
+    } catch (error) {
+      alert("Ошибка при отправке данных на backend", error);
+    }
   };
 
   const fetchFavoritesToBackend = async obj => {
-    const response = await fetch(
-      "https://64bb72ab5e0670a501d7089b.mockapi.io/Favorites",
-      {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json;charset=utf-8"
-        },
-        body: JSON.stringify(obj)
-      }
-    );
+    try {
+      const response = await fetch(
+        "https://64bb72ab5e0670a501d7089b.mockapi.io/Favorites",
+        {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json;charset=utf-8"
+          },
+          body: JSON.stringify(obj)
+        }
+      );
 
-    const data = await response.json();
-    return data;
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      alert("Ошибка при отправке данных [Избранное]", error);
+    }
   };
 
   // Стэйты
@@ -81,27 +97,36 @@ function App() {
   const [searchValue, setSearchValue] = useState("");
   const [cartOpened, setCartOpened] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isAdded, setIsAdded] = useState(true);
 
   // Функция добавления определённого товара в корзину
   const onAddToCart = card => {
-    const isCardAdded = cartItems.some(item => item.id === card.id);
+    try {
+      const isCardAdded = cartItems.some(item => item.id === card.id);
 
-    if (!isCardAdded) {
-      fetchDataToBackend(card);
-      setCartItems(prev => [...prev, card]);
+      if (!isCardAdded) {
+        setCartItems(prev => [...prev, card]);
+        fetchDataToBackend(card);
+      }
+    } catch (error) {
+      alert("Ошибка при добавлении в корзину", error);
     }
   };
 
   // Функция удаления определённого товара из корзины
   const onRemoveFromCart = id => {
-    fetch(`https://6499727d79fbe9bcf83f4533.mockapi.io/cart/${id}`, {
-      method: "delete",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8"
-      }
-    });
+    try {
+      setCartItems(prev => prev.filter(item => item.id !== id));
 
-    setCartItems(prev => prev.filter(item => item.id !== id));
+      fetch(`https://6499727d79fbe9bcf83f4533.mockapi.io/cart/${id}`, {
+        method: "delete",
+        headers: {
+          "Content-Type": "application/json;charset=utf-8"
+        }
+      });
+    } catch (error) {
+      alert("Ошибка при удалении из корзины", error);
+    }
   };
 
   // Функция добавления товара в избранное
@@ -135,7 +160,7 @@ function App() {
 
   return (
     <RootContext.Provider
-      value={{ favoriteItems, items, cartItems, setCartOpened, setCartItems }}
+      value={{ favoriteItems, items, cartItems, isAdded, setCartOpened, setCartItems, setIsAdded }}
     >
       <div className="page">
         <Cart
