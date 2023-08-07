@@ -3,36 +3,26 @@ import Home from "./pages/Home";
 import Header from "./components/Header";
 import Favorites from "./pages/Favorites";
 
-
 import { Route, Routes } from "react-router-dom";
 import { createContext, useEffect, useState } from "react";
-
+import axios from "axios";
 
 export const RootContext = createContext({});
-
 
 function App() {
   useEffect(() => {
     try {
       const fetchData = async () => {
         setIsLoading(true);
-        // Запрос товаров для рендера в главной части
-        const response = await fetch(
-          "https://6499727d79fbe9bcf83f4533.mockapi.io/items"
-        );
 
+        const response = await fetch("https://6499727d79fbe9bcf83f4533.mockapi.io/items");
         const data = await response.json();
 
-        // Запрос товаров для корзины
-        const responseForCart = await fetch(
-          "https://6499727d79fbe9bcf83f4533.mockapi.io/cart"
-        );
+
+        const responseForCart = await fetch("https://6499727d79fbe9bcf83f4533.mockapi.io/cart");
         const dataForCart = await responseForCart.json();
 
-        const responseForFavorites = await fetch(
-          "https://64bb72ab5e0670a501d7089b.mockapi.io/Favorites"
-        );
-
+        const responseForFavorites = await fetch("https://64bb72ab5e0670a501d7089b.mockapi.io/Favorites");
         const dataForFavorites = await responseForFavorites.json();
 
         setItems(data);
@@ -47,48 +37,6 @@ function App() {
     }
   }, []);
 
-  // Добавление товаров из корзины в Backend для последующего запроса при загрузке страницы
-  const fetchDataToBackend = async obj => {
-    try {
-      const response = await fetch(
-        "https://6499727d79fbe9bcf83f4533.mockapi.io/cart",
-        {
-          method: "post",
-          headers: {
-            "Content-Type": "application/json;charset=utf-8"
-          },
-          body: JSON.stringify(obj)
-        }
-      );
-
-      const data = await response.json();
-
-      return data;
-    } catch (error) {
-      alert("Ошибка при отправке данных на backend", error);
-    }
-  };
-
-  const fetchFavoritesToBackend = async obj => {
-    try {
-      const response = await fetch(
-        "https://64bb72ab5e0670a501d7089b.mockapi.io/Favorites",
-        {
-          method: "post",
-          headers: {
-            "Content-Type": "application/json;charset=utf-8"
-          },
-          body: JSON.stringify(obj)
-        }
-      );
-
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      alert("Ошибка при отправке данных [Избранное]", error);
-    }
-  };
-
   // Стэйты
 
   const [favoriteItems, setFavoriteItems] = useState([]);
@@ -97,19 +45,23 @@ function App() {
   const [searchValue, setSearchValue] = useState("");
   const [cartOpened, setCartOpened] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isAdded, setIsAdded] = useState(true);
 
   // Функция добавления определённого товара в корзину
-  const onAddToCart = card => {
+  const onAddToCart = async card => {
     try {
-      const isCardAdded = cartItems.some(item => item.id === card.id);
+      if (cartItems.find(item => Number(item.id) === Number(card.id))) {
+        setCartItems(prev =>
+          prev.filter(item => Number(item.id) !== Number(card.id))
+        );
 
-      if (!isCardAdded) {
+        axios.delete(`https://6499727d79fbe9bcf83f4533.mockapi.io/cart/${card.id}`);
+      } else {
         setCartItems(prev => [...prev, card]);
-        fetchDataToBackend(card);
+        axios.post("https://6499727d79fbe9bcf83f4533.mockapi.io/cart", card);
       }
     } catch (error) {
       alert("Ошибка при добавлении в корзину", error);
+      console.log(error);
     }
   };
 
@@ -117,13 +69,7 @@ function App() {
   const onRemoveFromCart = id => {
     try {
       setCartItems(prev => prev.filter(item => item.id !== id));
-
-      fetch(`https://6499727d79fbe9bcf83f4533.mockapi.io/cart/${id}`, {
-        method: "delete",
-        headers: {
-          "Content-Type": "application/json;charset=utf-8"
-        }
-      });
+      axios.delete(`https://6499727d79fbe9bcf83f4533.mockapi.io/cart/${id}`);
     } catch (error) {
       alert("Ошибка при удалении из корзины", error);
     }
@@ -133,23 +79,16 @@ function App() {
   const onAddToFavorite = async card => {
     try {
       if (favoriteItems.find(item => item.id === card.id)) {
-        fetch(
-          `https://64bb72ab5e0670a501d7089b.mockapi.io/Favorites/${card.id}`,
-          {
-            method: "delete",
-            headers: {
-              "Content-Type": "application/json;charset=utf-8"
-            }
-          }
-        );
-
         setFavoriteItems(prev => prev.filter(item => item.id !== card.id));
+        axios.delete(
+          `https://64bb72ab5e0670a501d7089b.mockapi.io/Favorites/${card.id}`
+        );
       } else {
-        const resp = await fetchFavoritesToBackend(card);
         setFavoriteItems(prev => [...prev, resp]);
+        const resp = await axios.post("https://64bb72ab5e0670a501d7089b.mockapi.io/Favorites");
       }
     } catch (error) {
-      console.error("Что-то пошло не так", error);
+      alert("Ошибка при добавлении в избранное", error);
     }
   };
 
@@ -158,9 +97,20 @@ function App() {
     setSearchValue(event.target.value);
   };
 
+  const isItemAdded = id => {
+    return cartItems.some(obj => Number(obj.id) === Number(id));
+  };
+
   return (
     <RootContext.Provider
-      value={{ favoriteItems, items, cartItems, isAdded, setCartOpened, setCartItems, setIsAdded }}
+      value={{
+        favoriteItems,
+        items,
+        cartItems,
+        setCartOpened,
+        setCartItems,
+        isItemAdded
+      }}
     >
       <div className="page">
         <Cart

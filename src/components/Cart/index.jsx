@@ -12,8 +12,6 @@ function Cart({ onClose, onRemove, items, opened }) {
     setCartItems([])
   }
 
-  console.log(RootContext);
-
   return (
     <div className={opened ? 'overlay' : 'overlay overlay-hidden'}>
       <div className={opened ? 'cart-sidepage' : 'cart-sidepage cart-sidepage__hidden'}>

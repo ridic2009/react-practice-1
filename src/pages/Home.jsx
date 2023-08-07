@@ -9,8 +9,8 @@ function Home({
   onAddToFavorite,
   isLoading
 }) {
-  const renderItems = () => {
 
+  const renderItems = () => {
     const filteredItems = items.filter(item =>
       item.title.toLowerCase().includes(searchValue.toLowerCase())
     );
