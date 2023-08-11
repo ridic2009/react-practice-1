@@ -44,15 +44,12 @@ function Favorites({ searchValue, onChangeSearchValue, onAddToFavorite }) {
           <ul className="products-list">
             {favoriteItems.length > 0 ? (
               favoriteItems
-                .filter(item =>
-                  item.title.toLowerCase().includes(searchValue.toLowerCase())
-                )
+                // .filter(item =>
+                //   item.title.toLowerCase().includes(searchValue.toLowerCase())
+                // )
                 .map((card, index) => (
                   <Card
                     key={index}
-                    onAdd={card => {
-                      onAddToCart(card);
-                    }}
                     onAddToFavorite={card => onAddToFavorite(card)}
                     {...card}
                   />

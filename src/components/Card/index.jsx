@@ -16,16 +16,17 @@ function Card({
 
   const { isItemAdded } = useContext(RootContext);
   const [isFavorite, setIsFavorite] = useState(favorited);
-  // console.log(title, isItemAdded(id));
+  const object = { id, parentId: id, title, imgURL, price }
+
   // Функция добавления товара в корзину
   const onClickPlus = () => {
-    onAdd({ id, title, imgURL, price });
+    onAdd(object);
     console.log(isItemAdded());
   };
 
   const onClickFavorite = () => {
+    onAddToFavorite(object);
     setIsFavorite(!isFavorite);
-    onAddToFavorite({ id, title, imgURL, price });
   };
   return (
     <li className="card">
