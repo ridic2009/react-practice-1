@@ -52,33 +52,6 @@ function App() {
   const [cartOpened, setCartOpened] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-
-
-  // const onAddToFavorite = async obj => {
-  //   try {
-  //     if (favoriteItems.find(favObj => Number(favObj.id) === Number(obj.id))) {
-  //       axios.delete(
-  //         `https://64cdf8620c01d81da3ee6656.mockapi.io/favorites/${obj.id}`
-  //       );
-  //       setFavoriteItems(prev =>
-  //         prev.filter(item => Number(item.id) !== Number(obj.id))
-  //       );
-  //     } else {
-  //       const { data } = await axios.post(
-  //         "https://64cdf8620c01d81da3ee6656.mockapi.io/favorites",
-  //         obj
-  //       );
-  //       setFavoriteItems(prev => [...prev, data]);
-  //     }
-  //   } catch (error) {
-  //     alert("Не удалось добавить в фавориты");
-  //     console.error(error);
-  //   }
-  // };
-
-
-
-
   // Функция добавления определённого товара в корзину
   const onAddToCart = async card => {
     try {
