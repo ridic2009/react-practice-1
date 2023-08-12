@@ -3,18 +3,22 @@ import Info from "../Info";
 import { RootContext } from "../../App";
 function Cart({ onClose, onRemove, items, opened }) {
 
-  const [placeOnOrder, setPlaceOnOrder] = useState(false);
-  const { setCartItems } = useContext(RootContext)
+  const { placeOnOrder, setPlaceOnOrder, setCartItems } = useContext(RootContext);
+
   const totalPrice = items.reduce((accum, item) => accum + item.price, 0);
 
   const onClickOrder = () => {
-    setPlaceOnOrder(true)
-    setCartItems([])
-  }
+    setPlaceOnOrder(true);
+    setCartItems([]);
+  };
 
   return (
-    <div className={opened ? 'overlay' : 'overlay overlay-hidden'}>
-      <div className={opened ? 'cart-sidepage' : 'cart-sidepage cart-sidepage__hidden'}>
+    <div className={opened ? "overlay" : "overlay overlay-hidden"}>
+      <div
+        className={
+          opened ? "cart-sidepage" : "cart-sidepage cart-sidepage__hidden"
+        }
+      >
         <div className="cart-sidepage__header">
           <h1>Корзина</h1>
           <button className="cart-sidepage__close" onClick={onClose}>
@@ -104,11 +108,21 @@ function Cart({ onClose, onRemove, items, opened }) {
           </>
         ) : (
           <Info
-            title={placeOnOrder ? "Заказ оформлен" : "Вы не добавили ничего в корзину"}
-            description={ placeOnOrder ? `Ваш заказ номер ${"какой-нибудь номер я хз"} оформлен и будет передан в курьерскую службу` :
-              "Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ."
+            title={
+              placeOnOrder
+                ? "Заказ оформлен"
+                : "Вы не добавили ничего в корзину"
             }
-            image={placeOnOrder ? "../../public/assets/complete-order.png" : "../../public/assets/box.jpg"}
+            description={
+              placeOnOrder
+                ? `Ваш заказ номер ${"какой-нибудь номер я хз"} оформлен и будет передан в курьерскую службу`
+                : "Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ."
+            }
+            image={
+              placeOnOrder
+                ? "../../public/assets/complete-order.png"
+                : "../../public/assets/box.jpg"
+            }
           />
         )}
       </div>

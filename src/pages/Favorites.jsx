@@ -56,7 +56,7 @@ function Favorites({ searchValue, onChangeSearchValue, onAddToFavorite }) {
                 ))
             ) : (
               <div className="favorite__empty">
-                Вы не добавили ни одного товара
+                Вы не добавили ни одного товара &#128530;
               </div>
             )}
           </ul>

@@ -51,6 +51,7 @@ function App() {
   const [searchValue, setSearchValue] = useState("");
   const [cartOpened, setCartOpened] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [placeOnOrder, setPlaceOnOrder] = useState(false);
 
   // Функция добавления определённого товара в корзину
   const onAddToCart = async card => {
@@ -139,8 +140,10 @@ function App() {
         favoriteItems,
         items,
         cartItems,
+        placeOnOrder,
         setCartOpened,
         setCartItems,
+        setPlaceOnOrder,
         isItemAdded
       }}
     >
@@ -152,7 +155,10 @@ function App() {
           opened={cartOpened}
         />
 
-        <Header handleCartOpen={() => setCartOpened(true)} items={cartItems} />
+        <Header handleCartOpen={() => {
+          setCartOpened(true)
+          setPlaceOnOrder(false)
+        }} items={cartItems} />
 
         <Routes>
           <Route
