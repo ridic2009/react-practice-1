@@ -11,7 +11,7 @@ function Header({ handleCartOpen, items }) {
         <div className="header__container">
           <Link to={"/"}>
             <div className="header__logo">
-              <img height={40} width={40} src="/assets/logo.svg" alt="logo" />
+              <img height={40} width={40} src="react-practice-1/assets/logo.svg" alt="logo" />
               <div>
                 <p>Сникерсы</p>
                 <p>Магазин лучших кроссовок</p>

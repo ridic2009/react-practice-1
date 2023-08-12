@@ -120,8 +120,8 @@ function Cart({ onClose, onRemove, items, opened }) {
             }
             image={
               placeOnOrder
-                ? "/assets/complete-order.png"
-                : "/assets/box.jpg"
+                ? "react-practice-1/assets/complete-order.png"
+                : "react-practice-1/assets/box.jpg"
             }
           />
         )}
