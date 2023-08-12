@@ -167,11 +167,12 @@ function App() {
               <Home
                 items={items}
                 searchValue={searchValue}
+                isLoading={isLoading}
                 setSearchValue={setSearchValue}
                 onChangeSearchValue={onChangeSearchValue}
                 onAddToCart={onAddToCart}
                 onAddToFavorite={onAddToFavorite}
-                isLoading={isLoading}
+
               />
             }
             exact
