@@ -5,3 +5,4 @@
 3. React Content Loader
 4. React Router DOM,
 5. Axios, FetchAPI
+6. SCSS
