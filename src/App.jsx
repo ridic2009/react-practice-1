@@ -44,7 +44,6 @@ function App() {
   }, []);
 
   // Стэйты
-
   const [favoriteItems, setFavoriteItems] = useState([]);
   const [items, setItems] = useState([]);
   const [cartItems, setCartItems] = useState([]);
