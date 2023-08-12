@@ -174,6 +174,7 @@ function App() {
                 isLoading={isLoading}
               />
             }
+            exact
           ></Route>
           <Route
             path="/favorites"
@@ -184,6 +185,7 @@ function App() {
                 onAddToFavorite={onAddToFavorite}
               />
             }
+            exact
           ></Route>
         </Routes>
       </div>
