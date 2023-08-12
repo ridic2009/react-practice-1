@@ -9,9 +9,9 @@ function Header({ handleCartOpen, items }) {
     <header>
       <div className="container">
         <div className="header__container">
-          <Link to={"/"}>
+          <Link to={"/home"}>
             <div className="header__logo">
-              <img height={40} width={40} src="react-practice-1/assets/logo.svg" alt="logo" />
+              <img height={40} width={40} src="/react-practice-1/assets/logo.svg" alt="logo" />
               <div>
                 <p>Сникерсы</p>
                 <p>Магазин лучших кроссовок</p>

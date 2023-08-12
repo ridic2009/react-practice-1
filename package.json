@@ -1,7 +1,7 @@
 {
   "name": "react-sneakers",
   "private": true,
-  "homepage": "https://ridic2009.github.io/react-practice-1/",
+  "homepage": "https://ridic2009.github.io/react-practice-1/home",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
