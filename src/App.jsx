@@ -161,7 +161,8 @@ function App() {
 
         <Routes>
           <Route
-            path="/home"
+            exact
+            path="/"
             element={
               <Home
                 items={items}
@@ -174,7 +175,7 @@ function App() {
 
               />
             }
-            exact
+
           ></Route>
           <Route
             path="/favorites"
